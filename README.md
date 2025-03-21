@@ -42,6 +42,7 @@ python3 mp3_sorter.py
 
 ## Configuration
 
+- **UNSORTED_DIR**: Define the base directory where original files are. Modify the script to set your preferred directory path.
 - **SORTED_DIR**: Define the base directory where sorted files will be moved. Modify the script to set your preferred directory path.
 - The script is designed to handle basic tagging scenarios. If additional or custom tags are needed, you can modify the script as needed.
 
