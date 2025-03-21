@@ -11,11 +11,11 @@ A lightweight Python script designed for use with a Navidrome server, which orga
 
 ## Requirements
 
-- Python 3.x
-- `eyed3` library for reading and modifying MP3 metadata (can be installed via `pip`).
+- Python 3
+- `eyed3` library for reading and modifying MP3 metadata.
   
 ```bash
-pip install eyed3
+apt install python2-eyed3
 ```
 
 ## mp3_sorter.py
