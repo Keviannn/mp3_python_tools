@@ -3,8 +3,8 @@ import eyed3
 from pathlib import Path
 import shutil
 
-UNSORTED_DIR = Path("/home/raid/catalogar")
-SORTED_DIR = Path("/home/raid/music")
+UNSORTED_DIR = Path("path/to/unsorted/files")
+SORTED_DIR = Path("path/to/sorted/files")
 
 for file in UNSORTED_DIR.iterdir():
         if file.is_file():
