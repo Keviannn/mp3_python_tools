@@ -7,7 +7,6 @@ A lightweight Python script designed for use with a Navidrome server, which orga
 - Extracts MP3 file metadata such as artist and album.
 - Automatically adds the `album_artist` tag if it doesn't already exist, using the first listed artist.
 - Moves the MP3 file into a folder structure: `SORTED_DIR/artist/album/`.
-- Easily customizable for different directory structures or metadata tags.
 
 ## Requirements
 
