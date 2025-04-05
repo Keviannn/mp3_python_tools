@@ -53,6 +53,8 @@ if __name__ == "__main__":
                     #Moves to SORTED_DIR + artist folder + album folder
                     if "/" in audio_file.tag._getAlbum():
                         audio_file.tag.album = audio_file.tag._getAlbum().replace("/", "-")
+                    if "\"" in audio_file.tag._getAlbum():
+                        audio_file.tag.album = audio_file.tag._getAlbum().replace("\"", "")
                         
                     audio_file_dir = SORTED_DIR / first_artist / audio_file.tag._getAlbum() / file.name
                     print(f'Moving {audio_file} to {audio_file_dir}...')
