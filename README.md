@@ -23,7 +23,7 @@ This script does the following:
 
 1. Reads the MP3 file metadata, extracting important tags like artist and album.
 2. If the `album_artist` tag is missing, it automatically adds the first listed artist as the album artist.
-3. If the album name has a "/" on its name, automatically changes it for "-" to avoid errors in the file path.
+3. If the album name has non valid characters for a directory, changes them for valid ones.
 4. Moves the MP3 file into a pre-defined folder structure: `SORTED_DIR/artist/album/`, where `SORTED_DIR` is a user-defined base directory for sorted files.
    
 ### Example Usage:
