@@ -1,4 +1,4 @@
-# mp3_tag_sorter
+# mp3_sorter
 
 A lightweight Python script designed for use with a Navidrome server, which organizes MP3 files based on their metadata tags. This script helps keep your music library clean and well-structured by sorting MP3 files into directories based on their artist and album tags.
 
@@ -14,7 +14,7 @@ A lightweight Python script designed for use with a Navidrome server, which orga
 - `eyed3` library for reading and modifying MP3 metadata.
   
 ```bash
-apt install python2-eyed3
+apt install python3-eyed3
 ```
 
 ## mp3_sorter.py
@@ -23,12 +23,14 @@ This script does the following:
 
 1. Reads the MP3 file metadata, extracting important tags like artist and album.
 2. If the `album_artist` tag is missing, it automatically adds the first listed artist as the album artist.
-3. Moves the MP3 file into a pre-defined folder structure: `SORTED_DIR/artist/album/`, where `SORTED_DIR` is a user-defined base directory for sorted files.
+3. If the album name has a "/" on its name, automatically changes it for "-" to avoid errors in the file path.
+4. Moves the MP3 file into a pre-defined folder structure: `SORTED_DIR/artist/album/`, where `SORTED_DIR` is a user-defined base directory for sorted files.
    
 ### Example Usage:
 
 ```bash
-python3 mp3_sorter.py
+#Execute inside the directory of unsorted MP3 files
+path/of/unsorted/files$ python3 /path/to/script/mp3_sorter.py
 ```
 
 ### Folder Structure
