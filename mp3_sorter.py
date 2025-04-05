@@ -3,8 +3,8 @@ import eyed3
 from pathlib import Path
 import shutil
 
-UNSORTED_DIR = Path("path/to/unsorted/files")
-SORTED_DIR = Path("path/to/sorted/files")
+UNSORTED_DIR = Path("/home/raid/catalogar")
+SORTED_DIR = Path("/home/raid/music")
 
 for file in UNSORTED_DIR.iterdir():
         if file.is_file():
@@ -31,13 +31,16 @@ for file in UNSORTED_DIR.iterdir():
                     audio_file.tag.save()
 
                     #Moves to SORTED_DIR + artist folder + album folder
+                    if "/" in audio_file.tag._getAlbum():
+                        audio_file.tag.album = audio_file.tag._getAlbum().replace("/", "-")
+                    print("im here 2")
                     audio_file_dir = SORTED_DIR / first_artist / audio_file.tag._getAlbum() / file.name
                     print(f'Moving {audio_file} to {audio_file_dir}...')
                     os.makedirs(os.path.dirname(audio_file_dir), exist_ok=True)
                     shutil.move(file, audio_file_dir)
                     print('Done\n')
             except:
-                print(f"Error: non mp3 file {file}\n")
+                print(f"Error: non compatible mp3 file {file}\n")
                 continue
         else:
             print(f'Error: {file} is not a file')
