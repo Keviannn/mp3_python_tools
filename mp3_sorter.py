@@ -85,7 +85,7 @@ if __name__ == "__main__":
                     print("Tags edited: 1")
                 else:
                     print(f'Existing album_artist tag is {audio_file.tag._getAlbumArtist()}')
-                    print("Tags not edited: 0")
+                    print("Tags edited: 0")
                     
                 #If trying to save without doing changes for ID3 v2.2 eyed3 launches an error
                 #because it cant't handle it. But if edited changes to ID3 v2.3 and saves in that format
@@ -95,12 +95,15 @@ if __name__ == "__main__":
                     except Exception as e:
                         exception_msg(f"Could not save tags, non compatible mp3 file \"{file.name}\"", e)
                         continue
-
+                try:
                 #Moves to SORTED_DIR + artist folder + album folder
-                if "/" in audio_file.tag._getAlbum():
-                    audio_file.tag.album = audio_file.tag._getAlbum().replace("/", "-")
-                if "\"" in audio_file.tag._getAlbum():
-                    audio_file.tag.album = audio_file.tag._getAlbum().replace("\"", "")
+                    if "/" in audio_file.tag._getAlbum():
+                        audio_file.tag.album = audio_file.tag._getAlbum().replace("/", "-")
+                    if "\"" in audio_file.tag._getAlbum():
+                        audio_file.tag.album = audio_file.tag._getAlbum().replace("\"", "")
+                except Exception as e:
+                    exception_msg(f"Could not get album tag from file.", e)
+                    continue
                         
                 audio_file_dir = SORTED_DIR / first_artist / audio_file.tag._getAlbum() / file.name
                 print(f'Moving {audio_file} to {audio_file_dir}...')
