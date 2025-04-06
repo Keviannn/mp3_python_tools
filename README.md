@@ -5,6 +5,7 @@ A lightweight Python script designed for use with a Navidrome server, which orga
 ## Features
 
 - Extracts MP3 file metadata such as artist and album.
+- Basic interface for adding basic tags if they do not exist.
 - Automatically adds the `album_artist` tag if it doesn't already exist, using the first listed artist.
 - Moves the MP3 file into a folder structure: `SORTED_DIR/artist/album/`.
 
@@ -22,9 +23,10 @@ apt install python3-eyed3
 This script does the following:
 
 1. Reads the MP3 file metadata, extracting important tags like artist and album.
-2. If the `album_artist` tag is missing, it automatically adds the first listed artist as the album artist.
-3. If the album name has non valid characters for a directory, changes them for valid ones.
-4. Moves the MP3 file into a pre-defined folder structure: `SORTED_DIR/artist/album/`, where `SORTED_DIR` is a user-defined base directory for sorted files.
+2. If `title`, `artist` or `album` tags do not exist, gives the user the option to add them.
+3. If the `album_artist` tag is missing, it automatically adds the first listed artist as the album artist.
+4. If the album name has non valid characters for a directory, changes them for valid ones.
+5. Moves the MP3 file into a pre-defined folder structure: `SORTED_DIR/artist/album/`, where `SORTED_DIR` is a user-defined base directory for sorted files.
    
 ### Example Usage:
 
