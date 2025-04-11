@@ -3,12 +3,14 @@ import eyed3
 from pathlib import Path
 import shutil
 
-UNSORTED_DIR = Path("/home/raid/catalogar")
-SORTED_DIR = Path("/home/raid/music")
+UNSORTED_DIR = Path("/path/to/unsorted/mp3")
+SORTED_DIR = Path("/path/to/sorted/mp3")
 tags_edited = 0
 empty_tags = 0
 empty_tags_arr = [1, 1, 1]
 user_input = ""
+first_artist = ""
+artist = ""
 
 def error_msg(msg):
     print(f"\n----- Error -----\nError: {msg}\n")
@@ -29,6 +31,7 @@ def add_tags(audio_file, empty_tags_arr):
 
 if __name__ == "__main__":
     print("mp3_sorter by Keviannn")
+    print("Remember using \" / \" to differentiate artists.")
     for file in UNSORTED_DIR.iterdir():
         tags_edited = 0
         empty_tags = 0
@@ -42,7 +45,7 @@ if __name__ == "__main__":
                 print(f'\nProcesing \"{file.name}\"...')
 
                 print(f"Name: {audio_file.tag.title} \nArtist: {audio_file.tag.artist} \nAlbum: {audio_file.tag.album}")
-
+    
                 if audio_file.tag.title is None:
                     empty_tags_arr[0] = 0
                 if audio_file.tag.artist is None:
@@ -65,13 +68,33 @@ if __name__ == "__main__":
 
                 if user_input.lower() == "n":
                     continue
-    
+                
+                artist = audio_file.tag._getArtist()
                 try:
-                    if "/" in audio_file.tag._getArtist():
-                        #Get first artist only from artist tag (BadBunny/ABBA --> BadBunny)
-                        first_artist = audio_file.tag._getArtist().split('/')[0]
+                    if "/" in artist:
+                        #Check if the name are various artists or just one to asign album_artist tag
+                        first_artist = artist.split(' / ')[0]
+                    elif "," in artist:
+                        while 1:
+                            answer = input(f"Are artist {artist} various artists? Y/N ").lower()
+                            if answer == "y":
+                                artist = artist.replace(",", " /")
+                                while 1:
+                                    answer = input(f"Is this artist tag ({artist}) now correct? Y/N ").lower()
+                                    if answer == "y":
+                                        audio_file.tag.artist = artist
+                                        first_artist = artist.split(' / ')[0]
+                                        print("New tag added")
+                                    elif answer == "n":
+                                        artist = input(f"Write the correct tag (now {artist}): ")
+                                    else:
+                                        print("Non valid input")
+                            elif answer == "n":
+                                break
+                            else:
+                                print("Non valid input")
                     else:
-                        first_artist = audio_file.tag._getArtist()
+                        first_artist = artist
                 except Exception as e:
                     exception_msg(f"Could not split artist tag", e)
                     break
@@ -95,17 +118,27 @@ if __name__ == "__main__":
                     except Exception as e:
                         exception_msg(f"Could not save tags, non compatible mp3 file \"{file.name}\"", e)
                         continue
+                
+                first_letter = audio_file.tag._getArtist()[0].upper()
+
                 try:
                 #Moves to SORTED_DIR + artist folder + album folder
-                    if "/" in audio_file.tag._getAlbum():
-                        audio_file.tag.album = audio_file.tag._getAlbum().replace("/", "-")
-                    if "\"" in audio_file.tag._getAlbum():
-                        audio_file.tag.album = audio_file.tag._getAlbum().replace("\"", "")
+                    album_dir = audio_file.tag._getAlbum()
+                    if "/" in album_dir:
+                        album_dir = album_dir.replace("/", "-")
+                    if "\"" in album_dir:
+                        album_dir = album_dir.replace("\"", "")
+                    if ":" in album_dir:
+                        album_dir = album_dir.replace(":", " -")
+                    if first_artist.endswith('.'):
+                        first_artist = first_artist.replace(".", "")
+                    if album_dir.endswith('.'):
+                        album_dir = album_dir.replace(".", "")
                 except Exception as e:
                     exception_msg(f"Could not get album tag from file.", e)
                     continue
                         
-                audio_file_dir = SORTED_DIR / first_artist / audio_file.tag._getAlbum() / file.name
+                audio_file_dir = SORTED_DIR / first_letter / first_artist / album_dir / file.name
                 print(f'Moving {audio_file} to {audio_file_dir}...')
                 os.makedirs(os.path.dirname(audio_file_dir), exist_ok=True)
                 shutil.move(file, audio_file_dir)
