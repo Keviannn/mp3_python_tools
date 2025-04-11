@@ -37,14 +37,6 @@ This script does the following:
   $ python3 /path/to/script/mp3_sorter.py
   ```
 
-- ### Folder Structure
-
-  - **Original File:**  
-  `/path/to/your/mp3/files/artist_album_song.mp3`
-  
-  - **After Sorting:**  
-  `/path/to/sorted/music/artist/album/song.mp3`
-
 - ### Configuration
 
   - **UNSORTED_DIR**: Defines the base directory where original files are located. Modify the script to set your preferred directory path.
